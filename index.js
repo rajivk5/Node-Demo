@@ -1,22 +1,35 @@
-const { MongoClient } = require('mongodb');
-// or as an es module:
-// import { MongoClient } from 'mongodb'
+const { MongoClient } = require("mongodb");
 
-// Connection URL
-const url = 'mongodb+srv://rajivr021_db_user:PWXiqBHbC9ztT2bM@cluster0.hbxy7dt.mongodb.net/?appName=Cluster0';
+const url =
+  "mongodb+srv://rajivr021_db_user:PWXiqBHbC9ztT2bM@cluster0.hbxy7dt.mongodb.net/?appName=Cluster0";
 const client = new MongoClient(url);
 
-// Database Name
-const dbName = 'HelloWorld';
+const dbName = "HelloWorld";
 
 async function main() {
-  // Use connect method to connect to the server
   await client.connect();
-  console.log('Connected successfully to server');
+  console.log("Connected successfully to server");
   const db = client.db(dbName);
 
-  await db.dropDatabase();
-  return 'done.';
+  //*******Delete a collection
+  // const users = db.collection("users1");
+  // const result = await users.drop();
+  // console.log(result);
+
+
+  //*******Insert a collection
+  // const users = db.collection('schoolData')
+  // let newData = await users.insertOne({Name:'Rajiv'});
+  // console.log(newData);
+
+  //*******insert a new user on a collection:
+    // const users = db.collection('schoolData');
+    // let newuser = await users.insertOne({Name:'sanjiv'})
+    // console.log(newuser);
+    
+
+  
+  return "done.";
 }
 
 main()
