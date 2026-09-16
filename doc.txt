@@ -1,0 +1,106 @@
+
+  //*******Delete a collection
+  // const userss = db.collection("collegeData");
+  // const result = await userss.drop();
+  // console.log(result);
+
+
+  //*******Insert a collection
+  // const users = db.collection('schoolData')
+  // let newData = await users.insertOne({Name:'Rajiv'});
+  // console.log(newData);
+
+  //*******insert a new user on a collection:
+  // const users = db.collection('schoolData');
+  // let newuser = await users.insertOne({Name:'sanjiv'})
+  // console.log(newuser);
+
+  //*****findCollection */
+  // let findResult = await collection.find({}).toArray();
+  // console.log(findResult);
+
+  //*****findOneCollection */
+  // let findOneResult = await collection.findOne({Name:'Rajiv'});
+  // console.log(findOneResult);
+
+  //*****updateOneCollection */
+  // let updateResult  = await collection.updateOne({Name:'Rajiv'},{$set:{Name:'Rajiv Kumar'}});
+  // console.log(updateResult);
+
+  //*****deleteOneCollection */
+  // let deleteResult = await collection.deleteOne({ Name: 'sanjiv' });
+  // console.log(deleteResult);
+
+  //*****deleteManyCollection */
+  // let deleteManyResult = await collection.deleteMany({ Name: 'Rajiv Kumar' });
+  // console.log(deleteManyResult);
+
+r
+  // *****insertManyCollection */
+  // let insertManyResult = await collection.insertMany([...users]);
+  // console.log(insertManyResult);
+
+
+
+  //*****findManyCollection */
+  // let findManyResult = await collection.find({}).toArray();
+  // console.log(findManyResult);
+
+  //*****findManyCollection with filter */
+  // let findManyResult = await collection.find({ age: { $gt: 28 } }).toArray();
+  // console.log(findManyResult);
+
+  //*****findManyCollection with filter and projection */
+  // let findManyResult = await collection
+  //   .find({ age: { $gt: 28 } })
+  //   .project({ Name: 1, _id: 0 })
+  //   .toArray();
+  // console.log(findManyResult);
+
+
+
+  //*****findManyCollection with filter and projection and sort */
+  // let findManyResult = await collection
+  //   .find({ age: { $gt: 28 } })
+  //   .project({ Name: 1, _id: 0 })
+  //   .sort({ Name: 1 })
+  //   .toArray();
+  // console.log(findManyResult);
+
+
+  //*****findManyCollection with filter and projection and sort and limit */
+  // let findManyResult = await collection
+  //   .find({ age: { $gt: 28 } })
+  //   .project({ Name: 1, _id: 0 })
+  //   .sort({ Name: 1 })
+  //   .limit(2)
+  //   .toArray();
+  // console.log(findManyResult); 
+
+  
+
+
+
+
+  //find all data on collection
+  // let listAllData = await collection.find({}).toArray();
+  // console.log(listAllData);
+
+
+
+
+  //find all data where first name is Rajiv
+  // let listAllData = await collection
+  //   .find({ "name.first": "Rajiv" })
+  //   .toArray();
+
+  // console.log(listAllData);
+
+
+
+  // let userlocation = await collection.find({'address.city': "Noida", salary: {$gt: 20000}}).toArray();
+  //   console.log(userlocation);
+
+  //count of users for this codition match address.city': "Noida", salary: {$gt: 20000}
+  // let userCount = await collection.countDocuments({'address.city': "Noida", salary: {$gt: 100000}});
+  // console.log(userCount);

@@ -9,26 +9,12 @@ const dbName = "HelloWorld";
 async function main() {
   await client.connect();
   console.log("Connected successfully to server");
-  const db = client.db(dbName);
+  const collection = client.db(dbName).collection("collegeData");
+  console.log("collection created successfully");
 
-  //*******Delete a collection
-  // const users = db.collection("users1");
-  // const result = await users.drop();
-  // console.log(result);
-
-
-  //*******Insert a collection
-  // const users = db.collection('schoolData')
-  // let newData = await users.insertOne({Name:'Rajiv'});
-  // console.log(newData);
-
-  //*******insert a new user on a collection:
-    // const users = db.collection('schoolData');
-    // let newuser = await users.insertOne({Name:'sanjiv'})
-    // console.log(newuser);
-    
 
   
+
   return "done.";
 }
 
