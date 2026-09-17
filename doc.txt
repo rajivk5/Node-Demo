@@ -1,106 +1,400 @@
+// ============================================================
+//              MONGODB NODE.JS QUICK NOTES
+// ============================================================
 
-  //*******Delete a collection
-  // const userss = db.collection("collegeData");
-  // const result = await userss.drop();
-  // console.log(result);
-
-
-  //*******Insert a collection
-  // const users = db.collection('schoolData')
-  // let newData = await users.insertOne({Name:'Rajiv'});
-  // console.log(newData);
-
-  //*******insert a new user on a collection:
-  // const users = db.collection('schoolData');
-  // let newuser = await users.insertOne({Name:'sanjiv'})
-  // console.log(newuser);
-
-  //*****findCollection */
-  // let findResult = await collection.find({}).toArray();
-  // console.log(findResult);
-
-  //*****findOneCollection */
-  // let findOneResult = await collection.findOne({Name:'Rajiv'});
-  // console.log(findOneResult);
-
-  //*****updateOneCollection */
-  // let updateResult  = await collection.updateOne({Name:'Rajiv'},{$set:{Name:'Rajiv Kumar'}});
-  // console.log(updateResult);
-
-  //*****deleteOneCollection */
-  // let deleteResult = await collection.deleteOne({ Name: 'sanjiv' });
-  // console.log(deleteResult);
-
-  //*****deleteManyCollection */
-  // let deleteManyResult = await collection.deleteMany({ Name: 'Rajiv Kumar' });
-  // console.log(deleteManyResult);
-
-r
-  // *****insertManyCollection */
-  // let insertManyResult = await collection.insertMany([...users]);
-  // console.log(insertManyResult);
+// Assume:
+// const collection = db.collection("collegeData");
 
 
+// ============================================================
+// 1. COLLECTION OPERATIONS
+// ============================================================
 
-  //*****findManyCollection */
-  // let findManyResult = await collection.find({}).toArray();
-  // console.log(findManyResult);
-
-  //*****findManyCollection with filter */
-  // let findManyResult = await collection.find({ age: { $gt: 28 } }).toArray();
-  // console.log(findManyResult);
-
-  //*****findManyCollection with filter and projection */
-  // let findManyResult = await collection
-  //   .find({ age: { $gt: 28 } })
-  //   .project({ Name: 1, _id: 0 })
-  //   .toArray();
-  // console.log(findManyResult);
+// Get / create a collection reference
+const collection = db.collection("collegeData");
 
 
-
-  //*****findManyCollection with filter and projection and sort */
-  // let findManyResult = await collection
-  //   .find({ age: { $gt: 28 } })
-  //   .project({ Name: 1, _id: 0 })
-  //   .sort({ Name: 1 })
-  //   .toArray();
-  // console.log(findManyResult);
+// Delete entire collection ⚠️
+// await collection.drop();
 
 
-  //*****findManyCollection with filter and projection and sort and limit */
-  // let findManyResult = await collection
-  //   .find({ age: { $gt: 28 } })
-  //   .project({ Name: 1, _id: 0 })
-  //   .sort({ Name: 1 })
-  //   .limit(2)
-  //   .toArray();
-  // console.log(findManyResult); 
+// ============================================================
+// 2. CREATE / INSERT
+// ============================================================
 
-  
+// Insert ONE document
+const result = await collection.insertOne({
+  name: "Rajiv",
+  age: 27
+});
 
-
-
-
-  //find all data on collection
-  // let listAllData = await collection.find({}).toArray();
-  // console.log(listAllData);
+console.log(result);
 
 
+// Insert MANY documents
+const result = await collection.insertMany([
+  { name: "Rajiv", age: 27 },
+  { name: "Sanjiv", age: 30 },
+  { name: "Amit", age: 25 }
+]);
+
+console.log(result);
 
 
-  //find all data where first name is Rajiv
-  // let listAllData = await collection
-  //   .find({ "name.first": "Rajiv" })
-  //   .toArray();
+// ============================================================
+// 3. READ / FIND
+// ============================================================
 
-  // console.log(listAllData);
+// Find ALL documents
+const result = await collection.find({}).toArray();
+
+console.log(result);
 
 
+// Find ONE document
+const result = await collection.findOne({
+  name: "Rajiv"
+});
 
-  // let userlocation = await collection.find({'address.city': "Noida", salary: {$gt: 20000}}).toArray();
-  //   console.log(userlocation);
+console.log(result);
 
-  //count of users for this codition match address.city': "Noida", salary: {$gt: 20000}
-  // let userCount = await collection.countDocuments({'address.city': "Noida", salary: {$gt: 100000}});
-  // console.log(userCount);
+
+// Find MANY with condition
+const result = await collection
+  .find({
+    age: { $gt: 28 }
+  })
+  .toArray();
+
+console.log(result);
+
+
+// ============================================================
+// 4. NESTED OBJECT SEARCH
+// ============================================================
+
+// Example document:
+//
+// {
+//   name: {
+//      first: "Rajiv",
+//      last: "Kumar"
+//   },
+//   address: {
+//      city: "Noida"
+//   }
+// }
+
+
+// Find using nested property
+const result = await collection
+  .find({
+    "name.first": "Rajiv"
+  })
+  .toArray();
+
+console.log(result);
+
+
+// Multiple conditions
+const result = await collection
+  .find({
+    "address.city": "Noida",
+    salary: { $gt: 20000 }
+  })
+  .toArray();
+
+console.log(result);
+
+
+// ============================================================
+// 5. PROJECTION
+// ============================================================
+
+// Projection = choose which fields you want back
+
+const result = await collection
+  .find({
+    age: { $gt: 28 }
+  })
+  .project({
+    name: 1,
+    age: 1,
+    _id: 0
+  })
+  .toArray();
+
+console.log(result);
+
+
+// 1 = include field
+// 0 = exclude field
+
+
+// ============================================================
+// 6. SORT
+// ============================================================
+
+const result = await collection
+  .find({})
+  .sort({
+    age: 1
+  })
+  .toArray();
+
+console.log(result);
+
+
+// 1  = ascending
+// -1 = descending
+
+
+// Example: highest salary first
+const result = await collection
+  .find({})
+  .sort({
+    salary: -1
+  })
+  .toArray();
+
+
+// ============================================================
+// 7. LIMIT
+// ============================================================
+
+const result = await collection
+  .find({})
+  .limit(5)
+  .toArray();
+
+console.log(result);
+
+
+// ============================================================
+// 8. FILTER + PROJECT + SORT + LIMIT
+// ============================================================
+
+const result = await collection
+  .find({
+    age: { $gt: 28 }
+  })
+  .project({
+    name: 1,
+    age: 1,
+    _id: 0
+  })
+  .sort({
+    age: -1
+  })
+  .limit(5)
+  .toArray();
+
+console.log(result);
+
+
+// Easy way to remember:
+//
+// FIND
+// ↓
+// PROJECT
+// ↓
+// SORT
+// ↓
+// LIMIT
+// ↓
+// toArray()
+
+
+// ============================================================
+// 9. UPDATE
+// ============================================================
+
+// Update ONE document
+const result = await collection.updateOne(
+  { name: "Rajiv" },             // find
+  {
+    $set: {
+      name: "Rajiv Kumar"
+    }
+  }                              // change
+);
+
+console.log(result);
+
+
+// Update multiple fields
+const result = await collection.updateOne(
+  { name: "Rajiv" },
+  {
+    $set: {
+      age: 28,
+      city: "Noida",
+      salary: 50000
+    }
+  }
+);
+
+
+// Update MANY documents
+const result = await collection.updateMany(
+  {
+    "address.city": "Noida"
+  },
+  {
+    $set: {
+      locationType: "NCR"
+    }
+  }
+);
+
+
+// ============================================================
+// 10. DELETE
+// ============================================================
+
+// Delete ONE document
+const result = await collection.deleteOne({
+  name: "Sanjiv"
+});
+
+console.log(result);
+
+
+// Delete MANY matching documents
+const result = await collection.deleteMany({
+  age: { $lt: 18 }
+});
+
+console.log(result);
+
+
+// Delete ALL documents ⚠️
+// Collection remains
+const result = await collection.deleteMany({});
+
+
+// Delete COLLECTION itself ⚠️
+// await collection.drop();
+
+
+// ============================================================
+// 11. COUNT
+// ============================================================
+
+// Count ALL documents
+const count = await collection.countDocuments({});
+
+console.log(count);
+
+
+// Count documents matching condition
+const count = await collection.countDocuments({
+  "address.city": "Noida",
+  salary: { $gt: 100000 }
+});
+
+console.log(count);
+
+
+// ============================================================
+// 12. IMPORTANT COMPARISON OPERATORS
+// ============================================================
+
+// $gt   = greater than
+// $gte  = greater than or equal
+// $lt   = less than
+// $lte  = less than or equal
+// $eq   = equal
+// $ne   = not equal
+// $in   = value exists in given array
+// $nin  = value does NOT exist in given array
+
+
+// Examples:
+
+// age > 25
+{ age: { $gt: 25 } }
+
+// age >= 25
+{ age: { $gte: 25 } }
+
+// age < 25
+{ age: { $lt: 25 } }
+
+// age <= 25
+{ age: { $lte: 25 } }
+
+// age != 25
+{ age: { $ne: 25 } }
+
+// city is Noida OR Delhi
+{ city: { $in: ["Noida", "Delhi"] } }
+
+
+// ============================================================
+// 13. LOGICAL OPERATORS
+// ============================================================
+
+// AND is automatic
+
+const result = await collection.find({
+  age: { $gt: 25 },
+  salary: { $gt: 50000 }
+}).toArray();
+
+
+// OR
+
+const result = await collection.find({
+  $or: [
+    { age: { $gt: 30 } },
+    { salary: { $gt: 100000 } }
+  ]
+}).toArray();
+
+
+// ============================================================
+//             ⭐ QUICKEST RECAP ⭐
+// ============================================================
+
+// CREATE
+collection.insertOne({})
+collection.insertMany([])
+
+
+// READ
+collection.find({})
+collection.findOne({})
+collection.countDocuments({})
+
+
+// UPDATE
+collection.updateOne({}, { $set: {} })
+collection.updateMany({}, { $set: {} })
+
+
+// DELETE
+collection.deleteOne({})
+collection.deleteMany({})
+collection.drop()
+
+
+// QUERY HELPERS
+.find({})
+.project({})
+.sort({})
+.limit()
+.toArray()
+
+
+// COMMON OPERATORS
+$gt
+$gte
+$lt
+$lte
+$eq
+$ne
+$in
+$nin
+$or
+$and
